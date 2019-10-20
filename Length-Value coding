@@ -1,0 +1,90 @@
+//Length-Value coding 
+//Program returns number of symbols in a given string
+
+#include <string>
+#include <string>
+#include <iostream>
+#include <cstdint>
+#include <bitset>
+using namespace std;
+
+
+string collectsX(string & line, int& i, int& n) {
+    string answ = "";
+    if (n == 4) {
+        bitset<8> b = line[i];
+        string tempStr = b.to_string().substr(5, 3);
+        answ += tempStr;
+        ++i;
+        b = line[i];
+        tempStr = b.to_string().substr(2, 6);
+        answ += tempStr;
+        ++i;
+        b = line[i];
+        tempStr = b.to_string().substr(2, 6);
+        answ += tempStr;
+        ++i;
+        b = line[i];
+        tempStr = b.to_string().substr(2, 6);
+        answ = answ + tempStr;
+        return answ;
+    } else if (n == 3) {
+        bitset<8> b = line[i];
+        string tempStr = b.to_string().substr(4, 4);
+        answ += tempStr;
+        ++i;
+        b = line[i];
+        tempStr = b.to_string().substr(2, 6);
+        answ += tempStr;
+        ++i;
+        b = line[i];
+        tempStr = b.to_string().substr(2, 6);
+        answ += tempStr;
+        return answ;
+    } else if (n == 2) {
+        bitset<8> b = line[i];
+        string tempStr = b.to_string().substr(3, 5);
+        answ += tempStr;
+        ++i;
+        b = line[i];
+        tempStr = b.to_string().substr(2, 6);
+        answ += tempStr;
+        return answ;
+    } else if (n == 1) {
+        bitset<8> b = line[i];
+        string tempStr = b.to_string().substr(1, 7);
+        answ += tempStr;
+        return answ;
+    }
+    return answ;
+}
+uint8_t in10(string& s) {
+    uint8_t answ = 0;
+    uint8_t stOf2 = 1;
+    for (int i = s.size() - 1; i >= 0; --i) {
+        if (s[i] == '1') {
+            answ += stOf2;
+        }
+        stOf2 *= 2;
+    }
+    return answ;
+}
+
+
+
+int main() {
+    uint64_t answ = 0;
+    std::string s;
+    int toMove = 0;
+    getline(std::cin.read(), s);
+    bitset<8> b = 127;
+    for (uint8_t byte : s){
+        bitset<8> bt = byte;
+        uint64_t toPlus = (bt & b).to_ulong();
+        toPlus = toPlus << toMove;
+        answ += toPlus;
+        toMove += 7;
+    }
+    cout << answ;
+    return 0;
+}
